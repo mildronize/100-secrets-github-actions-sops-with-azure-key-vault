@@ -1,0 +1,41 @@
+
+name: "Build and Deploy .NET Core"
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This env is sharing between jobs
+env:
+  dotnet_version: '6.0'
+  artifact_name: web-api
+  project_path: src/DemoWebAPI
+  # use {0} for replace expression: https://docs.github.com/en/actions/learn-github-actions/expressions#format
+  publish_profile_template: AzureAppService_PublishProfile_{0}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ env.dotnet_version }} 
+
+      - name: Publish folder
+        run: |
+          cd "./${{ env.project_path }}"
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish --configuration Release --output ./output
+          
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.artifact_name }}
+          path: '${{ env.project_path }}/output'
+          retention-days: 1  # Keep artifact on remote only 1 day
