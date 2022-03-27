@@ -39,3 +39,26 @@ jobs:
           name: ${{ env.artifact_name }}
           path: '${{ env.project_path }}/output'
           retention-days: 1  # Keep artifact on remote only 1 day
+
+  deploy:
+    name: 🚀 Deploy to ${{ matrix.env_name }}
+    runs-on: ubuntu-latest
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - env_name: Prod_Server_1
+          - env_name: Prod_Server_2
+          - env_name: Prod_Server_3
+          - env_name: Prod_Server_4
+          - env_name: Prod_Server_5
+          - env_name: Prod_Server_6
+          - env_name: Prod_Server_7
+          - env_name: Prod_Server_8
+          - env_name: Prod_Server_9
+          - env_name: Prod_Server_10
+
+    steps:
+      - name: Deploy
+        run: echo "${{ matrix.env_name }}"
