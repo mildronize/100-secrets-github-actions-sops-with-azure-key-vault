@@ -48,17 +48,32 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - env_name: Prod_Server_1
-          - env_name: Prod_Server_2
-          - env_name: Prod_Server_3
-          - env_name: Prod_Server_4
-          - env_name: Prod_Server_5
-          - env_name: Prod_Server_6
-          - env_name: Prod_Server_7
-          - env_name: Prod_Server_8
-          - env_name: Prod_Server_9
-          - env_name: Prod_Server_10
+          - id: demo_demo_multi_app_cat
+            name: thadaw-demo-multi-app-cat
+            resourceGroup: rg-thadaw-demo-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
+          - id: demo_demo_multi_app_dog
+            name: thadaw-demo-multi-app-dog
+            resourceGroup: rg-thadaw-demo-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
+          - id: demo_demo_multi_app_ant
+            name: thadaw-demo-multi-app-ant
+            resourceGroup: rg-thadaw-demo-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
 
     steps:
       - name: Deploy
         run: echo "${{ matrix.env_name }}"
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ env.artifact_name }}
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ matrix.name }}
+          publish-profile: ${{ secrets[format(env.publish_profile_template, matrix.id)] }}
+          package: .
