@@ -61,7 +61,8 @@ resource "azurerm_app_service" "web_api" {
   https_only          = true
 
   site_config {
-    dotnet_framework_version = "v6.0"
+#    dotnet_framework_version = "v6.0"
+    linux_fx_version = "DOTNETCORE|6.0"
 
     # when using an App Service Plan in the Free or Shared Tiers use_32_bit_worker_process must be set to true.
     use_32_bit_worker_process = true
