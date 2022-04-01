@@ -48,56 +48,57 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - id: demo_demo_multi_app_cat
+          - id: demo_multi_app_cat
             name: thadaw-demo-multi-app-cat
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_dog
+          - id: demo_multi_app_dog
             name: thadaw-demo-multi-app-dog
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_ant
+          - id: demo_multi_app_ant
             name: thadaw-demo-multi-app-ant
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_lion
+          - id: demo_multi_app_lion
             name: thadaw-demo-multi-app-lion
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_tiger
+          - id: demo_multi_app_tiger
             name: thadaw-demo-multi-app-tiger
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_goat
+          - id: demo_multi_app_goat
             name: thadaw-demo-multi-app-goat
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_panda
+          - id: demo_multi_app_panda
             name: thadaw-demo-multi-app-panda
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_zebra
+          - id: demo_multi_app_zebra
             name: thadaw-demo-multi-app-zebra
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_snake
+          - id: demo_multi_app_snake
             name: thadaw-demo-multi-app-snake
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
-          - id: demo_demo_multi_app_elephant
+          - id: demo_multi_app_elephant
             name: thadaw-demo-multi-app-elephant
-            resourceGroup: rg-thadaw-demo-demo-multi-app
+            resourceGroup: rg-thadaw-demo-multi-app
             slot: production
             subscription: Azure Subscription
+
 
     steps:
       - name: Deploy
