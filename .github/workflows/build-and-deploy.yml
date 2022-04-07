@@ -41,32 +41,19 @@ jobs:
           retention-days: 1  # Keep artifact on remote only 1 day
 
   deploy:
-    name: 🚀 Deploy to ${{ matrix.env_name }}
+    name: 🚀 Deploy to ${{ matrix.id }}
     runs-on: ubuntu-latest
     needs: build
     strategy:
       fail-fast: false
       matrix:
         include:
-          - id: demo_multi_app_cat
-            name: thadaw-demo-multi-app-cat
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
-          - id: demo_multi_app_dog
-            name: thadaw-demo-multi-app-dog
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
-          - id: demo_multi_app_ant
-            name: thadaw-demo-multi-app-ant
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
+          - id: dummy
+            name: dummy
 
     steps:
       - name: Deploy
-        run: echo "${{ matrix.env_name }}"
+        run: echo "${{ matrix.id }}"
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
