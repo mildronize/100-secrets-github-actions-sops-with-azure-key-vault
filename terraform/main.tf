@@ -12,7 +12,7 @@ terraform {
 locals {
   # instances = 2 # number of App Services instances
   instance_names   = ["cat", "dog", "ant"]
-  scope = "demo-multi-app"
+  scope = "multi-app"
   org = "thadaw"
   env = "demo"
   resource_group   = "rg-${local.org}-${local.env}-${local.scope}"
@@ -21,7 +21,7 @@ locals {
 
   output_servers = [for name in local.instance_names :  {
     id : join("_", [local.env, replace(local.scope, "-", "_"), name]),
-    name : "${local.org}-${local.scope}-${name}",
+    name : join("-", [local.org, local.env, local.scope, name]),
     resourceGroup : local.resource_group,
     subscription : local.subscription,
     slot : "production"

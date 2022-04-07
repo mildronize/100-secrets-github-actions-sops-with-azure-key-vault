@@ -1,1 +1,1 @@
-./index.js ../terraform/deploy.json
+node ./index.js ../terraform/deploy.json

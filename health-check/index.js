@@ -32,7 +32,7 @@ async function main() {
 // Want to use async/await? Add the `async` keyword to your outer function/method.
 async function checkHealth(name, url) {
   try {
-    const response = await axios.get(url, { timeout: 1000 });
+    const response = await axios.get(url, { timeout: 2000 });
     console.log(`✅ ${name} = ${response.data}`);
   } catch (error) {
     console.log(`❌ ${name}`);
