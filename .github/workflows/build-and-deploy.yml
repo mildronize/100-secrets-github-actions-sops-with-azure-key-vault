@@ -48,8 +48,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - id: dummy
-            name: dummy
+          - id: demo_multi_app_cat
+            name: thadaw-demo-multi-app-cat
+            resourceGroup: rg-thadaw-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
+          - id: demo_multi_app_dog
+            name: thadaw-demo-multi-app-dog
+            resourceGroup: rg-thadaw-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
+          - id: demo_multi_app_ant
+            name: thadaw-demo-multi-app-ant
+            resourceGroup: rg-thadaw-demo-multi-app
+            slot: production
+            subscription: Azure Subscription
+
 
     steps:
       - name: Deploy
