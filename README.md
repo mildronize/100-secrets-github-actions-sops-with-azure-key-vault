@@ -1,5 +1,12 @@
-# Deploy Multiple Azure App Services using GitHub Actions Matrix
-Deploy Multiple Azure App Services using GitHub Actions Matrix
+#  Dealing with more than 100 secrets on GitHub Actions using Mozilla SOPS and Azure Key Vault 
+
+May 7, 2022
+
+The problem we're facing with more than 100 secrets in our environment and how to we utilize implementation method and still provide acceptable security level. Lesson learn about how we manage secrets using Mozilla SOPS and Azure Key Vault on GitHub Actions deployment pipeline.
+
+Event: Global Azure Thailand.
+Demo Repo in Talk
+[SOPS for Azure Key Vault Boilerplate on GitHub](https://github.com/mildronize/sops-with-azure-keyvault-secrets)
 
 ## Demo Step
 
