@@ -1,4 +1,3 @@
-
 name: "Build and Deploy .NET Core"
 
 # Controls when the workflow will run
@@ -11,8 +10,12 @@ env:
   dotnet_version: '6.0'
   artifact_name: web-api
   project_path: src/DemoWebAPI
-  # use {0} for replace expression: https://docs.github.com/en/actions/learn-github-actions/expressions#format
-  publish_profile_template: AzureAppService_PublishProfile_{0}
+
+  my_private_repo_secrets_version: "0.0.1"
+  secrets_repo: mildronize/my-private-repo-secrets
+  sops_service_principle_gh_secret_name: AzureKeyVault_ServicePrinciple__kv_github_action__sp_sops_github_action
+  sops_secrets_path: ./examples/data.enc.yaml
+  sops_version: "3.7.2"
 
 jobs:
   build:
@@ -24,7 +27,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ env.dotnet_version }} 
+          dotnet-version: ${{ env.dotnet_version }}
 
       - name: Publish folder
         run: |
@@ -32,7 +35,7 @@ jobs:
           dotnet restore
           dotnet build --configuration Release
           dotnet publish --configuration Release --output ./output
-          
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -50,31 +53,43 @@ jobs:
         include:
           - id: demo_multi_app_cat
             name: thadaw-demo-multi-app-cat
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
+            property_path: .thadaw.app_service.cat
+
           - id: demo_multi_app_dog
             name: thadaw-demo-multi-app-dog
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
+            property_path: .thadaw.app_service.dog
+
           - id: demo_multi_app_ant
             name: thadaw-demo-multi-app-ant
-            resourceGroup: rg-thadaw-demo-multi-app
-            slot: production
-            subscription: Azure Subscription
-
+            property_path: .thadaw.app_service.ant
 
     steps:
-      - name: Deploy
-        run: echo "${{ matrix.id }}"
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
           name: ${{ env.artifact_name }}
+
+      - name: Checkout My Private repo Secrets
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.secrets_repo }}
+          ref: '${{ env.my_private_repo_secrets_version }}'
+          token: ${{ secrets.GH_TOKEN_PAT }}
+          path: ./my-private-repo-secrets
+
+      - name: Get Credential from SOPS
+        uses: mildronize/actions-get-secret-sops/azure@v1
+        id: sops
+        with:
+          path: "./my-private-repo-secrets/${{ env.sops_secrets_path }}"
+          property-path: "${{ matrix.property_path }}"
+          decrypting-key: ${{ secrets[env.sops_service_principle_gh_secret_name] }}
+          sops-version: "${{ env.sops_version }}"
+
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ matrix.name }}
-          publish-profile: ${{ secrets[format(env.publish_profile_template, matrix.id)] }}
+          publish-profile: ${{ steps.sops.outputs.secret }}
           package: .

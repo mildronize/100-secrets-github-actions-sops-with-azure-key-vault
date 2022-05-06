@@ -11,7 +11,7 @@ Demo Repo in Talk
 ## Demo Step
 
 
-1. Clone https://github.com/mildronize/sops-with-azure-keyvault-secrets
+1. Create template from https://github.com/mildronize/sops-with-azure-keyvault-secrets to `mildronize/my-private-repo-secrets`
 2. Modify config file `./examples/data.config.yaml`
 3. Create azure key vault
 
