@@ -10,23 +10,43 @@ Demo Repo in Talk
 
 ## Demo Step
 
-```bash
-cd ./terraform
-terraform apply
-terraform output -json  app_service_deployment > deploy.json
-dasel -r json -w yaml < deploy.json > thadaw.jobs.yml
 
-# copy yaml to thadaw.config.yml
-# copt yaml to .github/workflows/build-and-deploy.yml
+1. Clone https://github.com/mildronize/sops-with-azure-keyvault-secrets
+2. Modify config file `./examples/data.config.yaml`
+3. Create azure key vault
 
-# Go to Project Azure-to-github
-yarn set-github-secrets -f thadaw.config.yml -m
-./tmp/run-all.sh
+    ```bash
+    ./create-az-key-vault.sh ./examples/data.config.yaml
+    ```
+4. Encrypt secret from plain text
 
-# health check
-cd ../health-check
-node ./index.js ../terraform/deploy.json
-```
+    ```bash
+    ./encrypt.sh ./examples/data.config.yaml ./examples/data.plain.yaml > ./examples/data.enc.yaml
+    ```
+5. Commit & Push code
+6. Release to Pipeline (GitHub Action)
+    ```bash
+    ./scripts/bump-and-tag-version.sh 
+    ```
+
+    It will tag version, for example:
+
+    ```
+    Tag created and pushed: "0.0.1"
+    ```
+
+    Using this version to next step
+    
+7. Go to GitHub Action Repo which using this project for downloading secrets. (This Project)
+
+
+8. Health Check 
+
+    ```bash
+    # health check
+    cd ../health-check
+    node ./index.js ../terraform/deploy.json
+    ```
 
 ## Destroy App Services
 
